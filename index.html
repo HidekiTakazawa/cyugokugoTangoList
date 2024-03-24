@@ -182,7 +182,7 @@
       </div>
       <div class="linkurl">
         <a id="flash"
-          href="https://script.google.com/macros/s/AKfycbwCL3tny-JoGZehVtlIoO5bAdv5MVrEG88dCRBJmFTwp5cPgYwnhXRgssoVwQmY6f0/exec"
+          href="https://script.google.com/macros/s/AKfycbz4oJsJ-w-NmZI_qlEsi_jMeoWUbBfcKWinqAECVhQxJe49tWGij9KNLZjJ7UMSMc8/exec"
           target="_blank">語句・本文・文法</a>
         <!-- <a id="ikeda" href="index6.Chinese" target="_blank">使用手引書</a> -->
 
@@ -290,6 +290,7 @@
         formDisplay.classList.remove('formDisplayBlock');
         showCard.classList.add('showCardBlock');
         showCard.classList.remove('showCardNone');
+        comment.textContent = '';
       }
       chkboxChenged();
 
@@ -402,6 +403,8 @@
         result.classList.add('resultNone');
 
       }
+      imgDiv.classList.add('imgDivNoDisplay');
+      imgDiv.classList.remove('imgDivDisplay');
 
     }
 
