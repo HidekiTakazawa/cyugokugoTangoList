@@ -8,14 +8,14 @@
   <title>単語カード/单词卡</title>
   <style>
     #flashcard {
-      width: 300px;
-      height: 80px;
+      width: 340px;
+      height: 200px;
       border: 1px solid #000;
       text-align: center;
       display: flex;
       justify-content: center;
       align-items: center;
-      font-size: 28px;
+      font-size: 20px;
     }
 
     /* ボタンのスタイルを変更してサイズを大きくする */
@@ -122,6 +122,43 @@
       display: none;
     }
 
+    #inputHanyu {
+      font-size: 18px;
+    }
+
+    #etcInfo {
+      display: flex;
+    }
+
+    #Internet {
+      margin-top: 20px;
+      margin-left: 20px;
+      background-color: skyblue;
+      width: 90px;
+      height: 30px;
+    }
+
+    #infoInternet {
+      text-decoration: none;
+    }
+
+    .internetNoDisplay {
+      display: none;
+    }
+
+    .internetDisplay {
+      display: block;
+    }
+
+    #header3 {
+
+      display: flex;
+    }
+
+    #questionNo {
+      margin-left: 30px;
+    }
+
     .totalGrade {
       padding-left: 30px;
 
@@ -188,18 +225,27 @@
 
       </div>
     </div>
-    <!-- シートセレクトボックス -->
-    <div class="sheetSelect">
+    <div id="header3">
+      <!-- シートセレクトボックス -->
+      <div class="sheetSelect">
 
-      <label for="sheet-select">シート選択：</label><select id="sheet-select" name="sheetSelect"></select>
+        <label for="sheet-select">シート選択：</label><select id="sheet-select" name="sheetSelect"></select>
+      </div>
+      <div id="questionNo"></div>
+
     </div>
   </div>
   <div id="flashcard">Click to see definition/按下键看单词卡</div>
-  <div id="imgDiv" class="imgDivNoDisplay">
-    <a id="aGazou" target="_blank"><img id="imgGazou" width="100" height="100"></a>
+  <div id="etcInfo">
+    <div id="imgDiv" class="imgDivNoDisplay">
+      <a id="aGazou" target="_blank"><img id="imgGazou" width="100" height="100"></a>
 
+    </div>
+    <div id="Internet" class="internetNodisplay">
+      <a id="infoInternet">参考サイト</a>
+
+    </div>
   </div>
-
   <div class="showCard showCardBlock">
     <button onclick="showPreviousCard()">上一个</button>
     <button onclick="showAnswer()">下一个</button>
@@ -278,6 +324,9 @@
     const imgDiv = document.getElementById('imgDiv');
     const aGazou = document.getElementById('aGazou');
     const imgGazou = document.getElementById('imgGazou');
+    const questionNo = document.getElementById('questionNo');
+    let Internet = document.getElementById('Internet');
+    // チェックボックスが変更されたとき
     chkbox.addEventListener('change', () => {
       if (chkbox.checked) {
         isPinyin = true;
@@ -286,24 +335,26 @@
         comment.textContent = '';
       } else {
         isPinyin = false;
-        formDisplay.classList.add('formDisplayNone');
-        formDisplay.classList.remove('formDisplayBlock');
-        showCard.classList.add('showCardBlock');
-        showCard.classList.remove('showCardNone');
+        fncFormDisplayNone();
+
         comment.textContent = '';
       }
       chkboxChenged();
 
     });
+    //
+    function fncFormDisplayNone() {
+      formDisplay.classList.add('formDisplayNone');
+      formDisplay.classList.remove('formDisplayBlock');
+      showCard.classList.add('showCardBlock');
+      showCard.classList.remove('showCardNone');
+    }
     chkInput.addEventListener('click', (e) => {
       e.preventDefault();
       if (isKanjiCheck) {
         isKanjiCheck = false;
         chkInput.textContent = 'チェック';
-        formDisplay.classList.add('formDisplayNone');
-        formDisplay.classList.remove('formDisplayBlock');
-        showCard.classList.add('showCardBlock');
-        showCard.classList.remove('showCardNone');
+        fncFormDisplayNone();
         showAnswer();
         inputHanyu.value = '';
         inputHanyu.focus();
@@ -350,17 +401,15 @@
       currentIndex = -1;
       correctCount = 0;
       incorrectCount = 0;
-      formDisplay.classList.add('formDisplayNone');
-      formDisplay.classList.remove('formDisplayBlock');
-      showCard.classList.add('showCardBlock');
-      showCard.classList.remove('showCardNone');
-      imgDiv.classList.remove('imgDivDisplay');
-      imgDiv.classList.add('imgDivNoDisplay');
+      questionNo.textContent = '';
+      fncFormDisplayNone();
+      fncImageNoDisplay();
+      
       displayResult();
       flashcard.textContent = '按下键看单词卡';
       totalGrade.classList.remove('totalGradeDisplay');
       totalGrade.classList.add('totalGradeNoDisplay');
-
+      
     }
     // シートのセレクトボックス　作成処理
     function setSheetNames(sheetNamesArray) {
@@ -379,9 +428,9 @@
       let j = 0;
       let flashcardData2 = [];
       for (let i = 0; i < flashcardData.length; i++) {
-        let gyou = ['jp', flashcardData[i][0] + '.' + flashcardData[i][1], flashcardData[i][4]];
+        let gyou = ['jp', flashcardData[i][1], flashcardData[i][4], flashcardData[i][5], flashcardData[i][0]];
         flashcardData2.push(gyou);
-        gyou = ['ch', flashcardData[i][2] + '/' + flashcardData[i][3], flashcardData[i][4]];
+        gyou = ['ch', flashcardData[i][2] + '/' + flashcardData[i][3], flashcardData[i][4], flashcardData[i][5], flashcardData[i][0]];
         flashcardData2.push(gyou);
 
       }
@@ -392,6 +441,7 @@
       currentIndex = -1;
       correctCount = 0;
       incorrectCount = 0;
+      questionNo.textContent = '';
       totalGrade.classList.remove('totalGradeDisplay');
       totalGrade.classList.add('totalGradeNoDisplay');
       flashcard.textContent = '按下键看单词卡';
@@ -407,8 +457,14 @@
         result.classList.add('resultNone');
 
       }
+      fncImageNoDisplay();
+      
+    }
+    function fncImageNoDisplay() {
       imgDiv.classList.add('imgDivNoDisplay');
       imgDiv.classList.remove('imgDivDisplay');
+      Internet.classList.remove('internetDisplay');
+      Internet.classList.add('internetNoDisplay');
 
     }
 
@@ -449,22 +505,11 @@
       const currentData = flashcardData2[currentIndex];
       console.log(`currentdata= ${currentData}`);
       flashcard.textContent = currentData[1];
+      fncGazouInternet(currentData);
 
-      if (currentData[2] !== '') {
-        imgDiv.classList.add('imgDivDisplay');
-        imgDiv.classList.remove('imgDivNoDisplay');
-        aGazou.setAttribute('href', currentData[2]);
-        imgGazou.setAttribute('src', currentData[2]);
+      let strQuestionNo = `${currentData[4]}/${flashcardData2.length / 2}`;
+      questionNo.textContent = strQuestionNo;
 
-      } else {
-        imgDiv.classList.remove('imgDivDisplay');
-        imgDiv.classList.add('imgDivNoDisplay');
-
-        aGazou.setAttribute('href', '');
-        imgGazou.setAttribute('src', '');
-
-
-      }
       termSave = currentData[0];
       // termがChineseの時に中国だから　Chineseの時だけspeakTextを呼び出す。
       if (currentData[0] === 'ch') {
@@ -483,7 +528,39 @@
       }
 
     }
+    function fncGazouInternet(currentData) {
+      if (currentData[2] !== '') {
+        imgDiv.classList.add('imgDivDisplay');
+        imgDiv.classList.remove('imgDivNoDisplay');
+        aGazou.setAttribute('href', currentData[2]);
+        imgGazou.setAttribute('src', currentData[2]);
 
+      } else {
+        imgDiv.classList.remove('imgDivDisplay');
+        imgDiv.classList.add('imgDivNoDisplay');
+
+        aGazou.setAttribute('href', '');
+        imgGazou.setAttribute('src', '');
+
+
+      }
+
+      if (currentData[3] !== '') {
+        Internet.classList.add('internetDisplay');
+        Internet.classList.remove('internetNoDisplay');
+        let infoInternet = document.getElementById('infoInternet');
+
+        let gazouURL0 = currentData[3];
+        infoInternet.setAttribute('href', gazouURL0);
+        // atag.setAttribute('class', 'classGazou');
+        infoInternet.setAttribute('target', '_blank');
+
+      } else {
+        Internet.classList.remove('internetDisplay');
+        Internet.classList.add('internetNoDisplay');
+
+      }
+    }
     // 前のカードを表示する関数
     function showPreviousCard() {
       currentIndex = currentIndex - 1;
@@ -491,7 +568,10 @@
         currentIndex = 0;
       }
       const currentData = flashcardData2[currentIndex];
+      fncGazouInternet(currentData);
       flashcard.textContent = currentData[1];
+      let strQuestionNo = `${currentData[4]}/${flashcardData2.length / 2}`;
+      questionNo.textContent = strQuestionNo;
       termSave = currentData[0];
       // termがChineseの時に中国だから　Chineseの時だけspeakTextを呼び出す。
       if (currentData[0] === 'ch') {
