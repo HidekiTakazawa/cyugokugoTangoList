@@ -100,18 +100,20 @@
       line-height: 50px;
       border-radius: 6px
     }
-
-    #ikeda {
-      display: inline-block;
+    #aDiv {
+      cursor: pointer;
       width: 100px;
       height: 40px;
-      cursor: pointer;
       background-color: pink;
-      text-decoration: none;
       text-align: center;
-      line-height: 50px;
-      border-radius: 6px
+      line-height: 40px;
+      border-radius: 10px;
     }
+    #pdf-link {
+      text-decoration: none;
+    }
+
+    
 
     .imgDivDisplay {
       display: block;
@@ -224,6 +226,11 @@
         <!-- <a id="ikeda" href="index6.Chinese" target="_blank">使用手引書</a> -->
 
       </div>
+      <div id="aDiv">
+        <a href="https://drive.google.com/file/d/1xExBsjozNSCnDzwf80Gl3rN_VejIsiju/view?usp=sharing" id="pdf-link" target="_blank">Help</a>
+    
+      </div>
+
     </div>
     <div id="header3">
       <!-- シートセレクトボックス -->
@@ -235,7 +242,7 @@
 
     </div>
   </div>
-  <div id="flashcard">Click to see definition/按下键看单词卡</div>
+  <div id="flashcard">Click to see definition/[下一个](次へ)を押して単語を見る</div>
   <div id="etcInfo">
     <div id="imgDiv" class="imgDivNoDisplay">
       <a id="aGazou" target="_blank"><img id="imgGazou" width="100" height="100"></a>
@@ -406,7 +413,7 @@
       fncImageNoDisplay();
       
       displayResult();
-      flashcard.textContent = '按下键看单词卡';
+      flashcard.textContent = '[下一个](次へ)を押して単語を見る';
       totalGrade.classList.remove('totalGradeDisplay');
       totalGrade.classList.add('totalGradeNoDisplay');
       
@@ -444,7 +451,7 @@
       questionNo.textContent = '';
       totalGrade.classList.remove('totalGradeDisplay');
       totalGrade.classList.add('totalGradeNoDisplay');
-      flashcard.textContent = '按下键看单词卡';
+      flashcard.textContent = '[下一个](次へ)を押して単語を見る';
       showCard.classList.add('showCardBlock');
       showCard.classList.remove('showCardNone');
       let result = document.querySelector('.result');
@@ -616,7 +623,7 @@
 
 
     // 最初のカードを表示
-    flashcard.textContent = '按下键看单词卡';
+    flashcard.textContent = '[下一个](次へ)を押して単語を見る';
     // フラッシュカードがクリックされた時の処理
     flashcard.addEventListener('click', () => {
       if (termSave === 'ch') {
