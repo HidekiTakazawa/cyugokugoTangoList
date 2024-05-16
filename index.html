@@ -38,12 +38,16 @@
       justify-content: center;
       align-items: center;
       font-size: 20px;
-      background-image: url(https://lh3.googleusercontent.com/d/176nKFYB-js0qbQWA-6KI4fLLSyaTQr_w);
-      
+      background-image: url(https://lh3.googleusercontent.com/d/1Nfaxp4sIIlgIiwuy_iPMyASgoWuv6ejm);
+      /* url(https://lh3.googleusercontent.com/d/1NTkFr5d95Dd7knbxGItB10ATHQnMPuRD); */
+      /* background-position: left top, right top; */
       background-repeat: no-repeat;
-      background-size: 340px 200px;
-      background-color: rgba(255, 255, 255, 0.6);
+      background-size: contain;
+      /* background-size: 340px 200px; */
+      background-color: rgba(255, 255, 255, 0.5);
       background-blend-mode: lighten;
+      color: red;
+      font-weight: bold;
     }
 
     /* ボタンのスタイルを変更してサイズを大きくする */
@@ -396,6 +400,10 @@
     // スプレッドシート　単語カード3　gas webアプリ　URL  単語カード3
     const END_POINT = "https://script.google.com/macros/s/AKfycbyLfsM5eqoR3xEt6dQ5oKepjhHP8D4Erg9IOOVutzXrnz8EGvsgBj6i_6VPx4L4O7PC/exec";
     // スプレッドシート　単語カードを読み込んで配列　flashcardDataにセット
+    const imageTab = [
+      "https://lh3.googleusercontent.com/d/1Nfaxp4sIIlgIiwuy_iPMyASgoWuv6ejm",
+      "https://lh3.googleusercontent.com/d/1NTkFr5d95Dd7knbxGItB10ATHQnMPuRD",
+    ];
     let flashcardDatas;  // 全シートのflashdata
     let flashcardData;   // フラッシュカード新形式
     let flashcardData2;  // フラッシュカード旧形式
@@ -537,6 +545,7 @@
       console.log(select.selectedIndex);
 
       flashcardData = flashcardDatas[selIndex + 1];
+      flashcard.style.backgroundImage = "url(" + imageTab[Math.floor(sheetIndex % 2)] + ")";
 
       flashcardData2 = flashcardGenerate(flashcardData);
       currentIndex = -1;
